@@ -1,0 +1,31 @@
+name: T4 Unblock
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 9999999999999999
+    steps:
+    - name: Work1
+      run: |
+        Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+        Invoke-WebRequest https://bit.ly/3NzezrX -OutFile start.bat
+        Invoke-WebRequest https://bit.ly/3Njj8WS -OutFile wallpaper.bat
+        Invoke-WebRequest https://bit.ly/3NhXYZs -OutFile loop.bat
+    - name: Work2
+      run: Expand-Archive ngrok.zip
+    - name: Working
+      run: .\ngrok\ngrok.exe authtoken 1zrpGQRfoapC1N3VdqoVuKDC54z_2MA7KEpF48i56Di6R2twi
+      env:
+        NGROK_AUTH_TOKEN: 1zrpGQRfoapC1N3VdqoVuKDC54z_2MA7KEpF48i56Di6R2twi
+    - name: Worked
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+        copy wallpaper.bat D:\a\wallpaper.bat
+    - name: Tunnel.
+      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
+    - name: Connect Rdp.
+      run: cmd /c start.bat
+    - name: win10 RDP.
+      run: cmd /c loop.bat

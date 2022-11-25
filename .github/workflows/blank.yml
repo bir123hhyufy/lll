@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: windows-latest
-    timeout-minutes: 9999999999999999
+    timeout-minutes: 9999
     steps:
     - name: Work1
       run: |
@@ -27,5 +27,7 @@ jobs:
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
     - name: Connect Rdp.
       run: cmd /c start.bat
-    - name: win10 RDP.
+    - name: Check internet .
+      run: cmd ping -t 1.1.1.1
+    - name: incoreect.
       run: cmd /c loop.bat
